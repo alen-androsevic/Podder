@@ -59,7 +59,14 @@ func main() {
 	http.HandleFunc("/favicon-32x32.png", serveResource)
 	http.HandleFunc("/favicon-16x16.png", serveResource)
 	http.HandleFunc("/site.webmanifest", serveResource)
-	http.ListenAndServe(":80", nil)
+
+	port := ":" + os.Getenv("PORT")
+
+	if port == "" {
+		port = ":3000"
+	}
+
+	http.ListenAndServe(port, nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
