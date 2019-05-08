@@ -1,0 +1,16 @@
+{
+	"ImportPath": "podder",
+	"GoVersion": "go1.12",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/SlyMarbo/rss",
+			"Comment": "v1.0.1-4-g618789f",
+			"Rev": "618789f695530c7b599d0c3f2a968ef819c727ae"
+		},
+		{
+			"ImportPath": "github.com/axgle/mahonia",
+			"Rev": "3358181d7394e26beccfae0ffde05193ef3be33a"
+		}
+	]
+}
