@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <title>&#129365; Podcasts <3 - /\ \/ /\ \/ /\ \/</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="timer">
+    <div id="time"></div>
+  </div>
+  <pre>
+    {{range .Podcasts}}
+        <a href="{{.Link}}">{{.Title}}</a>
+    {{end}}
+  </pre>
+  <script type="application/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      let playing = false;
+      Array.from(document.querySelectorAll('a')).forEach(link => { 
+        link.addEventListener('click', e => { 
+          e.preventDefault();
+          if (playing) {
+            playing.pause();
+            playing.currentTime = 0
+          }
+          playing = new Audio(e.currentTarget.href);
+          playing.addEventListener('timeupdate', e => {
+		  console.log(e);
+		  document.getElementById('time').style.width = `${playing.currentTime / playing.duration * 100}%`
+	  });
+          playing.play();
+	})
+      })
+    })
+  </script>
+</body>
+</html>
