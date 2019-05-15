@@ -11,15 +11,20 @@ import (
 
 var tpl *template.Template
 
+type Category struct {
+	Title string
+	Podcasts []Podcast
+}
+
 type Podcast struct {
 	Title string
 	Link string
 }
 
-var pods []Podcast
+var cats []Category
 
 type ViewData struct{
-    Podcasts []Podcast
+    Categories []Category
 }
 
 func main() {
@@ -36,6 +41,7 @@ func main() {
 			log.Fatal(err)
 		}
 
+		var pods []Podcast
 		for index := 0; index < len(feed.Items); index++ {
 			url := feed.Items[index].Enclosures[0].URL
 			podcast := Podcast{
@@ -44,6 +50,11 @@ func main() {
 			}
 			pods = append(pods, podcast)
 		}
+		category := Category{
+			Title: feed.Title,
+			Podcasts: pods,
+		}
+		cats = append(cats, category)
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
@@ -55,6 +66,7 @@ func main() {
         }
 
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/app.js", serveResource)
 	http.HandleFunc("/style.css", serveResource)
 	http.HandleFunc("/favicon-32x32.png", serveResource)
 	http.HandleFunc("/favicon-16x16.png", serveResource)
@@ -62,7 +74,7 @@ func main() {
 
 	port := ":" + os.Getenv("PORT")
 
-	if port == "" {
+	if port == ":" {
 		port = ":3000"
 	}
 
@@ -72,7 +84,7 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	vd := ViewData{Podcasts: pods,}
+	vd := ViewData{Categories: cats,}
 
 	err := tpl.Execute(w, vd)
 
