@@ -8,6 +8,7 @@ body {
 	height: 30px;
 	background-color: #000;
 	position: fixed;
+	display: flex;
 }
 #time {
 	width: 0%;
