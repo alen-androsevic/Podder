@@ -9,6 +9,7 @@ body {
 	background-color: #000;
 	position: fixed;
 	display: flex;
+	top: 0;
 }
 #time {
 	width: 0%;
