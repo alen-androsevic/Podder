@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         if (playing) {
-            btnPlay.innerHTML = '►';
+            btnPlay.innerHTML = '▶️';
             playing.pause();
             playing.currentTime = 0
         }
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('time').style.width = `${playing.currentTime / playing.duration * 100}%`
         });
         playing.play();
-        btnPlay.innerHTML = '❚❚';
+        btnPlay.innerHTML = '⏸️';
     }
 
     function nextHandler(e) {
@@ -49,8 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
         playing.pause();
         playing.currentTime = 0;
         playing = new Audio(next.href);
+        playing.addEventListener('timeupdate', e => {
+            document.getElementById('time').style.width = `${playing.currentTime / playing.duration * 100}%`
+        });
         playing.play();
-        btnPlay.innerHTML = '❚❚';
+        btnPlay.innerHTML = '⏸️';
     }
 
     function playHandler(e) {
@@ -59,13 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!playing) {
             return;
         }
-
+        playing.addEventListener('timeupdate', e => {
+            document.getElementById('time').style.width = `${playing.currentTime / playing.duration * 100}%`
+        });
         if (!playing.paused) {
             playing.pause();
-            btnPlay.innerHTML = '►';
+            btnPlay.innerHTML = '▶️';
         } else {
             playing.play();
-            btnPlay.innerHTML = '❚❚';
+            btnPlay.innerHTML = '⏸️';
         }
     }
 
